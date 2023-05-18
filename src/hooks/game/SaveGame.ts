@@ -3,29 +3,33 @@ import { useBetween } from 'use-between';
 import { useStorage } from '../useStorage';
 
 const state = () => {
+    const [gameTicks, setGameTicks] = useState<number>(0);
     const [ticks, setTicks] = useState<number>(0);
     const { saveData } = useStorage();
 
-    const saveGame = () => {
-        setTicks((prev) => {
-            let newV = prev;
-
-            if (newV >= 30) {
-                newV = 0;
-                saveData();
-            } else {
-                newV += 1;
-            }
-
-            return newV;
-        });
+    const tick = () => {
+        setGameTicks(Math.random());
     };
 
     useEffect(() => {
-        window.addEventListener('game-tick', () => saveGame());
+        setTicks((prev) => {
+            let newV = prev + 1;
+
+            console.log(newV);
+
+            if (newV >= 10) {
+                saveData();
+                newV = 0;
+            }
+            return newV;
+        });
+    }, [gameTicks]);
+
+    useEffect(() => {
+        window.addEventListener('game-tick', () => tick());
     }, []);
 
-    return { saveGame };
+    return {};
 };
 
 export const useSaveGame = () => useBetween(state);

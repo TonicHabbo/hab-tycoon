@@ -6,7 +6,7 @@ const defaultStore = {
     tutorial: 0,
     name: 'Happy',
     coins: 1000,
-    level: 10,
+    level: 1,
     floors: [
         {
             id: 1,
@@ -47,6 +47,7 @@ const storageState = () => {
     };
 
     const saveData = () => {
+        console.log(stored);
         localStorage.setItem('stored-data', JSON.stringify(stored));
 
         console.log('Game Saved');

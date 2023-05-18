@@ -48,11 +48,13 @@ export const FloorCreatorView = () => {
                         }
                         value={selectedType}
                     >
-                        <option disabled selected value={-1}>
+                        <option disabled value={-1}>
                             Floor Type
                         </option>
                         {getBuildableFloors().map((val, i) => (
-                            <option value={val.id}>{val.publicName}</option>
+                            <option value={val.id} key={i}>
+                                {val.publicName}
+                            </option>
                         ))}
                     </select>
                 </div>
