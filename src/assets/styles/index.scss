@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "../../components/Components.scss";
+@import "./Frame.scss";
+
+html,
+body,
+* {
+    image-rendering: pixelated;
+}
+
+.standalone-app {
+    //zoom: 1.5;
+}

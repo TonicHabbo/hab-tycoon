@@ -1,0 +1,40 @@
+.loading-screen {
+    overflow: hidden;
+    .loading-door {
+        background-color: #333;
+        position: relative;
+        box-shadow: inset 0 0 0 2px rgba(white, 0.3);
+        transition: left 0.8s ease-in-out, right 1s ease-in-out;
+        border-top: 1px solid black;
+
+        &::after {
+            content: "";
+            position: absolute;
+            background-image: url("../../assets/images/loading/shine.png");
+            background-position: center right;
+            inset: 0;
+            opacity: 0.02;
+        }
+
+        &:nth-child(1) {
+            left: 0;
+            border-right: 1px solid black;
+        }
+
+        &:nth-child(2) {
+            right: 0;
+            border-left: 1px solid black;
+        }
+    }
+    &.loading-open {
+        .loading-door {
+            &:nth-child(1) {
+                left: -100%;
+            }
+
+            &:nth-child(2) {
+                right: -100%;
+            }
+        }
+    }
+}

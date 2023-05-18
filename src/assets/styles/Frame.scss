@@ -1,0 +1,55 @@
+.ubuntu-frame {
+    width: calc(100% - 100px);
+
+    .ubuntu-header {
+        border-image-source: url("../images/frame/header.png");
+        border-image-slice: 8 fill;
+        border-image-width: 8px;
+
+        min-height: 26px;
+        width: 100%;
+        color: white;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        flex-shrink: 0;
+    }
+
+    .ubuntu-body {
+        border-image-source: url("../images/frame/body.png");
+        border-image-slice: 7 fill;
+        border-image-width: 7px;
+    }
+    .ubuntu-close {
+        background-image: url("../images/frame/buttons.png");
+        height: 20px;
+        width: 19px;
+        background-position: 0 bottom;
+
+        &:active {
+            background-position: -19px bottom;
+        }
+
+        &:hover {
+            background-position: -38px bottom;
+        }
+    }
+}
+
+.ubuntu-input {
+    border-image-source: url("../images/frame/input.png");
+    border-image-slice: 6 fill;
+    border-image-width: 6px;
+    text-align: center;
+    outline: none;
+}
+
+.ubuntu-button {
+    border-image-source: url("../images/frame/button.png");
+    border-image-slice: 6 fill;
+    border-image-width: 6px;
+    text-align: center;
+    height: 26px;
+    padding: 0px 12px;
+    font-size: 12px;
+    font-weight: bold;
+}

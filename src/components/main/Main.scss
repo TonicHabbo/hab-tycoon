@@ -1,0 +1,31 @@
+.floor-list {
+    .rooftop-start {
+        height: 21px;
+        border-image-source: url("../../assets/images/main/top.png");
+        border-image-slice: 10 fill;
+        border-image-width: 10px;
+        border-image-repeat: repeat repeat;
+    }
+
+    .floor-template {
+        height: 62px;
+        width: 100%;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+
+        background-position: center bottom;
+        background-repeat: no-repeat;
+
+        &.lobby-floor {
+            background-image: url("../../assets/images/main/floors/lobby.png");
+        }
+
+        &.hallway-small {
+            background-image: url("../../assets/images/main/floors/hallway-sm.png");
+        }
+
+        &.empty {
+            background-image: url("../../assets/images/main/floors/empty.png");
+        }
+    }
+}
