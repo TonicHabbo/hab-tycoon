@@ -1,5 +1,5 @@
 {
-    "start_url": "/",
+    "start_url": "/hab-tycoon",
     "name": "Habbo Tycoon",
     "short_name": "HabboTycoon",
     "icons": [
@@ -16,6 +16,5 @@
     ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
-    "display": "standalone",
-    "scope":"."
+    "display": "standalone"
 }
