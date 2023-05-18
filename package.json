@@ -1,13 +1,15 @@
 {
   "name": "beehive",
   "version": "2.1.1",
-  "homepage": ".",
   "private": true,
+  "homepage": "./",
   "scripts": {
     "start": "vite",
     "build": "vite build",
     "build:prod": "npx browserslist@latest --update-db && yarn build",
-    "eslint": "eslint src --ext .ts,.tsx"
+    "eslint": "eslint src --ext .ts,.tsx",
+    "preview": "vite build && vite preview",
+    "deploy": "./deploy.sh && rm -rf dist"
   },
   "dependencies": {
     "howler": "^2.2.3",

@@ -4,7 +4,7 @@ set -e
 
 rm -rf dist
 
-yarn run build
+yarn run build --base=/hab-tycoon/
 
 cd dist
 

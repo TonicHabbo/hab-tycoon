@@ -47,9 +47,7 @@ const storageState = () => {
     };
 
     const saveData = () => {
-        if (process.env!.NODE_ENV === 'production') {
-            localStorage.setItem('stored-data', JSON.stringify(stored));
-        }
+        localStorage.setItem('stored-data', JSON.stringify(stored));
 
         console.log('Game Saved');
     };
@@ -68,10 +66,8 @@ const storageState = () => {
         const local = JSON.parse(localStorage.getItem('stored-data'));
 
         if (local) setStored(local);
-        else if (process.env!.NODE_ENV === 'production') {
-            localStorage.setItem('stored-data', JSON.stringify(defaultStore));
-        }
-    }, [stored]);
+        else localStorage.setItem('stored-data', JSON.stringify(defaultStore));
+    }, []);
 
     return {
         stored,
