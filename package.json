@@ -9,7 +9,7 @@
     "build:prod": "npx browserslist@latest --update-db && yarn build",
     "eslint": "eslint src --ext .ts,.tsx",
     "preview": "vite build && vite preview",
-    "deploy": "./deploy.sh && rm -rf dist"
+    "deploy": "sh ./deploy.sh && rm -rf dist"
   },
   "dependencies": {
     "howler": "^2.2.3",
