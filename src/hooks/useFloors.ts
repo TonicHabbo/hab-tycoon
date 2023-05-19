@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useBetween } from 'use-between';
 import { FloorType } from '../utils';
+import { useLevels } from './useLevels';
 import { useStorage } from './useStorage';
 
 export interface IFloor {
@@ -13,6 +14,8 @@ export interface IFloor {
 
 const state = () => {
     const { stored, getLevel, setValue, getCoins } = useStorage();
+    const { gainXP } = useLevels();
+
     const [floorCreator, setFloorCreator] = useState<boolean>(false);
 
     const floors = useMemo(() => stored.floors, [stored]);
@@ -46,11 +49,18 @@ const state = () => {
         setValue('coins', getCoins - floorType?.cost);
 
         setValue('floors', [...floors, newFloor]);
+        gainXP(floorType.xpReward);
     };
     const [ticks, setTicks] = useState<number>(0);
 
-    const updateFloors = useCallback(() => {
-        setTicks(Math.random());
+    const maxGuests = useMemo(() => {
+        let max = 0;
+
+        for (let floor of floors)
+            if (getFloorType(floor.type)?.guests > 0 && floor.ticksToBuild <= 0)
+                max += getFloorType(floor.type)?.guests;
+
+        return max;
     }, [floors]);
 
     useEffect(() => {
@@ -71,7 +81,7 @@ const state = () => {
     }, [ticks]);
 
     useEffect(() => {
-        window.addEventListener('game-tick', updateFloors.bind(this));
+        window.addEventListener('game-tick', () => setTicks(Math.random()));
     }, []);
 
     return {
@@ -82,7 +92,7 @@ const state = () => {
         setFloorCreator,
         getBuildableFloors,
         createFloor,
-        updateFloors,
+        maxGuests,
     };
 };
 

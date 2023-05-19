@@ -25,6 +25,7 @@ const state = () => {
         await new Promise<void>(async (resolve, reject) => {
             let element = new Howl({
                 src: `./sounds/${file}`,
+                html5: true,
             });
 
             element.on('load', () => {

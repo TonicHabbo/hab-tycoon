@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { LoadingScreen, Mainview, ToolbarView, TopBarView } from "./components";
+import {
+    LevelUp,
+    LoadingScreen,
+    Mainview,
+    ToolbarView,
+    TopBarView,
+} from "./components";
 import { TutorialView } from "./components/tutorial/TutorialView";
 import { useApp } from "./hooks";
 import { Button, Flex } from "./reusables";
@@ -59,6 +65,7 @@ export const App = () => {
                             <TopBarView />
                             <Mainview />
                             <ToolbarView />
+                            <LevelUp />
                             <TutorialView />
                         </>
                     )}

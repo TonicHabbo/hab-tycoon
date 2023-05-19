@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useBetween } from 'use-between';
+import { IGuest } from './game';
 import { IFloor } from './useFloors';
 
 const defaultStore = {
@@ -7,6 +8,8 @@ const defaultStore = {
     name: 'Happy',
     coins: 1000,
     level: 1,
+    xp: 0,
+    rating: 0,
     floors: [
         {
             id: 1,
@@ -15,14 +18,8 @@ const defaultStore = {
             level: 1,
             ticksToBuild: 0,
         },
-        {
-            id: 2,
-            type: 1,
-            name: 'Hallway 1',
-            level: 1,
-            ticksToBuild: 30,
-        },
     ],
+    guests: [],
     lastTick: 0,
 };
 
@@ -31,7 +28,10 @@ interface Store {
     name: string;
     coins: number;
     level: number;
+    xp: number;
+    rating: number;
     floors: IFloor[];
+    guests: IGuest[];
 }
 const storageState = () => {
     const [stored, setStored] = useState<Store>(defaultStore);
@@ -47,10 +47,13 @@ const storageState = () => {
     };
 
     const saveData = () => {
-        console.log(stored);
         localStorage.setItem('stored-data', JSON.stringify(stored));
 
         console.log('Game Saved');
+    };
+
+    const reset = () => {
+        setStored(defaultStore);
     };
 
     //
@@ -63,21 +66,31 @@ const storageState = () => {
 
     const getLevel = useMemo(() => stored?.level, [stored]);
 
-    useEffect(() => {
-        const local = JSON.parse(localStorage.getItem('stored-data'));
+    const getXP = useMemo(() => stored?.xp, [stored]);
 
-        if (local) setStored(local);
-        else localStorage.setItem('stored-data', JSON.stringify(defaultStore));
+    const getRating = useMemo(() => stored.rating, [stored]);
+
+    useEffect(() => {
+        let local = JSON.parse(localStorage.getItem('stored-data'));
+
+        if (local) {
+            local = { ...defaultStore, ...local };
+            setStored(local);
+        } else
+            localStorage.setItem('stored-data', JSON.stringify(defaultStore));
     }, []);
 
     return {
         stored,
         setValue,
         saveData,
+        reset,
         tutorialStep,
         getName,
         getCoins,
         getLevel,
+        getXP,
+        getRating,
     };
 };
 

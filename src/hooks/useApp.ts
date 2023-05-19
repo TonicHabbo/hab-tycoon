@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useBetween } from 'use-between';
-import { useGame, useSaveGame } from './game';
+import { useGame, useGuestsTicker, useSaveGame } from './game';
 import { useFloors } from './useFloors';
+import { useLevels } from './useLevels';
 
 const state = () => {
     const [ready, setReady] = useState<boolean>(false);
     const [standalone, setAlone] = useState(false);
+    const {} = useLevels();
     const {} = useGame();
     const {} = useSaveGame();
     const {} = useFloors();
+    const {} = useGuestsTicker();
 
     useEffect(() => {
         let displayMode = 'browser';

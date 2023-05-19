@@ -7,26 +7,12 @@ const state = () => {
     const [ticks, setTicks] = useState<number>(0);
     const { saveData } = useStorage();
 
-    const tick = () => {
-        setGameTicks(Math.random());
-    };
-
     useEffect(() => {
-        setTicks((prev) => {
-            let newV = prev + 1;
-
-            console.log(newV);
-
-            if (newV >= 10) {
-                saveData();
-                newV = 0;
-            }
-            return newV;
-        });
+        saveData();
     }, [gameTicks]);
 
     useEffect(() => {
-        window.addEventListener('game-tick', () => tick());
+        window.addEventListener('game-tick', () => setGameTicks(Math.random()));
     }, []);
 
     return {};

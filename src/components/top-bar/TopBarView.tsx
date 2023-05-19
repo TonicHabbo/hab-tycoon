@@ -1,8 +1,8 @@
 import { useStorage } from "../../hooks";
-import { Flex } from "../../reusables";
+import { Button, Flex } from "../../reusables";
 
 export const TopBarView = () => {
-    const { getCoins, getName, getLevel } = useStorage();
+    const { getCoins, getName, getLevel, reset } = useStorage();
 
     return (
         <Flex
@@ -10,6 +10,7 @@ export const TopBarView = () => {
             fullWidth
         >
             {getCoins} | ({getName} Hotel) | (Level: {getLevel})
+            <Button onClick={reset}>reset</Button>
         </Flex>
     );
 };

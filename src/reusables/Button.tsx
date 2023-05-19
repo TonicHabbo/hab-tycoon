@@ -7,7 +7,7 @@ export const Button = (props: ButtonProps) => {
     const { className = "", disabled = false, ...rest } = props;
 
     const getClasses = useMemo(() => {
-        let classes = ["ubuntu-button", className];
+        let classes = ["ubuntu-button", "text-black", className];
 
         if (disabled) classes.push("opacity-50", "pointer-events-none");
 

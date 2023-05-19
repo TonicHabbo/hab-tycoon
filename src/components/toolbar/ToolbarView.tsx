@@ -43,6 +43,7 @@ export const ToolbarView = () => {
             className={getClasses}
         >
             <div className="toolbar-icon toolbar-floors" />
+            <div className="toolbar-icon toolbar-guests" />
             <div className="toolbar-icon toolbar-crime" />
         </Flex>
     );

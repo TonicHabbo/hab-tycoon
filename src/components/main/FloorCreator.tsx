@@ -67,9 +67,7 @@ export const FloorCreatorView = () => {
                             : "?"}
                     </b>
                 </div>
-                <Button onClick={onBuild} disabled={!canAfford}>
-                    Build
-                </Button>
+                <Button onClick={onBuild}>Build</Button>
             </Flex>
         </Frame>
     );

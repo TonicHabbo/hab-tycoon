@@ -24,6 +24,13 @@
         background-size: cover;
     }
 
+    .toolbar-guests {
+        width: 30px;
+        height: 26px;
+        background-image: url("../../assets/images/icons/toolbar-guests.png");
+        background-position: center;
+    }
+
     // &.standalone {
     //     .toolbar-crime {
     //         width: calc(33px * 1.5);
