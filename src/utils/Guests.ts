@@ -1,8 +1,8 @@
 export const GuestType: IGuestType[] = [
-    { name: 'Guest', payout: 10, checkout: 30, rarity: 0 },
-    { name: 'Regular', payout: 13, checkout: 40, rarity: 0 },
-    { name: 'Long-Term', payout: 18, checkout: 80, rarity: 1 },
-    { name: 'VIP', payout: 20, checkout: 40, rarity: 10 },
+    { name: 'Guest', payout: 10, checkout: 30, rarity: 0, vip: false },
+    { name: 'Regular', payout: 13, checkout: 40, rarity: 0, vip: false },
+    { name: 'Long-Term', payout: 18, checkout: 80, rarity: 1, vip: false },
+    { name: 'VIP', payout: 20, checkout: 40, rarity: 10, vip: true },
 ];
 
 export interface IGuestType {
@@ -10,6 +10,7 @@ export interface IGuestType {
     payout: number;
     checkout: number;
     rarity: number;
+    vip: boolean;
 }
 
 export const randomGuestType = () => {
@@ -36,7 +37,7 @@ export const randomGuestType = () => {
     return type;
 };
 
-export const generateGuestName = (vip: boolean) => {
+export const generateGuestName = (vip: boolean = false) => {
     let vips = [
         'TheGeneral',
         'Quackster',
@@ -67,6 +68,24 @@ export const generateGuestName = (vip: boolean) => {
         'Webbanditten',
         'Jonteh',
         'Kev',
+        'Wwana',
+        'Muscab',
+        'Frank',
+        'Loderse',
+        'NotMiceElf',
+        'CrashCarson',
+        'SmoothCriminal',
+        'Puffin',
+        'Robbis',
+        'Corelo',
+        'Yordi',
+        'Alejandro',
+        'Watson',
+        'Witness',
+        'Prism',
+        'Darkstar',
+        'Shady',
+        'Dominic',
     ];
 
     if (vip) {
@@ -147,7 +166,10 @@ export const generateGuestName = (vip: boolean) => {
         'lewis',
         'louis',
         'mary',
-        'mary',
+        'josh',
+        'joshua',
+        'venus',
+        'charlotte',
     ];
 
     let randomUsername =

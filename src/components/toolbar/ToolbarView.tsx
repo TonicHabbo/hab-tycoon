@@ -1,9 +1,11 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { useApp } from "../../hooks";
 import { Flex } from "../../reusables";
 
 export const ToolbarView = () => {
     const { standalone } = useApp();
+
+    const menuRef = useRef<HTMLSelectElement>(null);
 
     const getClasses = useMemo(() => {
         let classes = [

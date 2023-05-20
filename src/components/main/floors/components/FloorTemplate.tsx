@@ -26,7 +26,7 @@ export const FloorTemplate = (props: {
 
     return (
         <Flex column className="border-x border-black w-full" gap={0}>
-            <div className="bg-[#555] w-full p-0.5 text-white text-xs">
+            <div className="bg-[#555] w-full p-0.5 text-white text-xs shadow-[inset_0_1px_rgba(255,255,255,0.3),inset_0_-1px_rgba(255,255,255,0.3)]">
                 {floor?.name + " "}
                 {isBeingBuilt && `(Under Contruction: ${floor?.ticksToBuild}s)`}
             </div>

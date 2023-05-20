@@ -6,6 +6,10 @@ export const LevelUp = (props: { level: ILevel }) => {
     const { level } = props;
     const { removePopup } = usePopups();
 
+    const remove = () => {
+        removePopup("level");
+    };
+
     const jsx = (
         <Frame title="Level up!">
             <Flex column alignItems="center" fit>
@@ -17,7 +21,7 @@ export const LevelUp = (props: { level: ILevel }) => {
                         ? level.unlocks.join(", ")
                         : "No new unlocks :("}
                 </div>
-                <Button onClick={() => removePopup(jsx)}>OK</Button>
+                <Button onClick={remove}>OK</Button>
             </Flex>
         </Frame>
     );

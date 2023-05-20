@@ -41,10 +41,8 @@ const state = () => {
 
             if (guest.checkout <= 0) {
                 deletion.push(i);
-            } else {
-                guest.checkout -= 1;
                 coins += type.payout;
-            }
+            } else guest.checkout -= 1;
         }
 
         updated = updated.filter((val, i) => {
@@ -57,15 +55,13 @@ const state = () => {
 
     const addGuest = () => {
         let randomType = randomGuestType();
-        let username = generateGuestName();
+        let username = generateGuestName(randomType.vip);
 
         let newGuest: IGuest = {
             name: username,
             type: GuestType.findIndex((el) => el === randomType),
             checkout: randomType.checkout,
         };
-
-        console.log(newGuest, randomType);
         setValue('guests', [...getGuests, newGuest]);
     };
 
@@ -77,7 +73,6 @@ const state = () => {
     useEffect(() => {
         let ticks = 0;
         window.addEventListener('game-tick', () => {
-            console.log('tick', ticks);
             ticks++;
             setGameTicks(ticks);
         });

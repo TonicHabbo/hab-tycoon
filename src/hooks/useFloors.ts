@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useBetween } from 'use-between';
 import { FloorType } from '../utils';
 import { useLevels } from './useLevels';
+import { usePopups } from './usePopups';
 import { useStorage } from './useStorage';
 
 export interface IFloor {
@@ -10,11 +11,13 @@ export interface IFloor {
     name: string;
     level: number;
     ticksToBuild: number;
+    kind: number;
 }
 
 const state = () => {
     const { stored, getLevel, setValue, getCoins } = useStorage();
     const { gainXP } = useLevels();
+    const { notify } = usePopups();
 
     const [floorCreator, setFloorCreator] = useState<boolean>(false);
 
@@ -43,7 +46,8 @@ const state = () => {
             type,
             name,
             level: 1,
-            ticksToBuild: floorType.ticksToBuild,
+            ticksToBuild: floorType?.ticksToBuild,
+            kind: floorType?.kind,
         };
 
         setValue('coins', getCoins - floorType?.cost);
@@ -63,6 +67,14 @@ const state = () => {
         return max;
     }, [floors]);
 
+    const kindBuilt = (kind: number) => {
+        let amount = 0;
+
+        for (let floor of floors) if (floor.kind == kind) amount += 1;
+
+        return amount;
+    };
+
     useEffect(() => {
         let updatedFloors = [...floors];
 
@@ -71,7 +83,12 @@ const state = () => {
         for (let floor of updatedFloors) {
             if (floor.ticksToBuild > 0) {
                 floor.ticksToBuild -= 1;
+
+                if (floor.ticksToBuild == 0)
+                    notify(floor.name + ' Has finished building!');
+
                 updated += 1;
+            } else {
             }
         }
 
@@ -81,7 +98,9 @@ const state = () => {
     }, [ticks]);
 
     useEffect(() => {
-        window.addEventListener('game-tick', () => setTicks(Math.random()));
+        window.addEventListener('game-tick', () =>
+            setTicks(Math.random() * 30000)
+        );
     }, []);
 
     return {
@@ -93,6 +112,7 @@ const state = () => {
         getBuildableFloors,
         createFloor,
         maxGuests,
+        kindBuilt,
     };
 };
 

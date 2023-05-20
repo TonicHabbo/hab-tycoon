@@ -15,15 +15,12 @@ export const LoadingScreen = () => {
         if (ready) return;
         setReady(true);
         startTicker();
+        playAudio("ding.mp3");
 
         setTimeout(() => {
-            playAudio("ding.mp3");
-
-            setTimeout(() => {
-                setDone(true);
-                playAudio("loop.mp3", true, true);
-            }, 250);
-        }, 100);
+            setDone(true);
+            playAudio("loop.mp3", true, true);
+        }, 250);
     };
 
     const getClasses = useMemo(() => {

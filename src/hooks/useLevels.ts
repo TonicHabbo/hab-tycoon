@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useBetween } from 'use-between';
 import { LevelUp } from '../components';
 import { Levels } from '../utils';
@@ -8,7 +8,6 @@ import { useStorage } from './useStorage';
 const state = () => {
     const { getLevel, getXP, setValue } = useStorage();
     const { addPopup, removePopup } = usePopups();
-    const [curLevel, setCurLevel] = useState<number>(getLevel);
 
     const currentLevel = useMemo(() => {
         return Levels.filter((val) => val.level == getLevel)[0];
@@ -22,14 +21,21 @@ const state = () => {
         setValue('xp', amount);
     };
 
+    const maxOfKind = (kind: number) => {
+        let levelKind =
+            currentLevel?.kinds?.filter((val) => val.id == kind)[0]?.many || 1;
+
+        return levelKind;
+    };
+
     useEffect(() => {
         if (getXP >= nextLevel?.xp) {
-            addPopup(LevelUp({ level: nextLevel }));
+            addPopup('level', LevelUp({ level: nextLevel }));
             setValue('level', nextLevel?.level);
         }
     }, [getXP]);
 
-    return { gainXP };
+    return { gainXP, maxOfKind };
 };
 
 export const useLevels = () => useBetween(state);

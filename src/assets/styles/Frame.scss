@@ -1,5 +1,6 @@
 .ubuntu-frame {
-    width: calc(100% - 100px);
+    width: calc(100% - 50px);
+    max-width: max-content;
 
     .ubuntu-header {
         border-image-source: url("../images/frame/header.png");

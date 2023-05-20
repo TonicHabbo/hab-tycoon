@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
-import { useFloors, useSounds, useStorage } from "../../hooks";
+import { useFloors, usePopups, useSounds, useStorage } from "../../hooks";
+import { useLevels } from "../../hooks/useLevels";
 import { Button, Flex, Frame, Input } from "../../reusables";
+import { kinds } from "../../utils";
 
 export const FloorCreatorView = () => {
     const {
@@ -9,9 +11,12 @@ export const FloorCreatorView = () => {
         getBuildableFloors,
         getFloorType,
         createFloor,
+        kindBuilt,
     } = useFloors();
     const { playAudio } = useSounds();
     const { getCoins } = useStorage();
+    const { maxOfKind } = useLevels();
+    const { notify } = usePopups();
 
     const [name, setName] = useState<string>("");
     const [selectedType, setSelectedType] = useState<number>(-1);
@@ -20,23 +25,41 @@ export const FloorCreatorView = () => {
         return getFloorType(selectedType)?.cost <= getCoins;
     }, [selectedType]);
 
+    const reset = () => {
+        setFloorCreator(false);
+        setSelectedType(-1);
+        setName("");
+    };
+
     const onBuild = () => {
-        if (!canAfford || !name.length) {
+        let floorType = getFloorType(selectedType);
+
+        if (!floorType || floorType === undefined) return;
+
+        if (
+            !canAfford ||
+            name.length < 3 ||
+            kindBuilt(floorType.kind) >= maxOfKind(floorType.kind)
+        ) {
             playAudio("error.mp3");
+            if (name.length < 3) notify("Name too short!", true);
+            if (!canAfford) notify("You cannot afford this right now!", true);
+            if (kindBuilt(floorType.kind) >= maxOfKind(floorType.kind))
+                notify(
+                    `You cannot build any more ${kinds[floorType.kind]} Floors`,
+                    true
+                );
         } else {
             playAudio("build.mp3");
-            setFloorCreator(false);
             createFloor(selectedType, name);
-
-            setSelectedType(-1);
-            setName("");
+            reset();
         }
     };
 
     if (!floorCreator) return;
 
     return (
-        <Frame title="Build a new floor" close={() => setFloorCreator(false)}>
+        <Frame title="Build a new floor" close={reset}>
             <Flex column alignItems="center" justify="center" fit>
                 <Input placeholder="Name" value={name} onValue={setName} />
                 <div>
@@ -61,7 +84,7 @@ export const FloorCreatorView = () => {
                 <hr className="border-t border-black opacity-25 w-full" />
                 <div className="text-center w-full">
                     Cost:{" "}
-                    <b className={!canAfford && "text-red-500"}>
+                    <b className={!canAfford ? "text-red-500" : ""}>
                         {selectedType > -1
                             ? getFloorType(selectedType)?.cost
                             : "?"}

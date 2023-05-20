@@ -1,9 +1,11 @@
 import { Howl } from 'howler';
 import { useState } from 'react';
 import { useBetween } from 'use-between';
+import { useApp } from './useApp';
 
 const state = () => {
     const [files, setFiles] = useState<Map<string, Howl>>(new Map());
+    const { isIos } = useApp();
 
     const preload = async () => {
         let audios = [
@@ -25,7 +27,7 @@ const state = () => {
         await new Promise<void>(async (resolve, reject) => {
             let element = new Howl({
                 src: `./sounds/${file}`,
-                html5: true,
+                html5: isIos,
             });
 
             element.on('load', () => {
@@ -54,10 +56,10 @@ const state = () => {
 
         let id = audio.play();
 
-        if (fade) audio.fade(-1, id, 1500);
+        if (fade) audio.fade(-1, id, 2000);
 
         if (loop && !looping)
-            audio.on('end', () => playAudio(file, loop, false, true));
+            audio.on('end', () => playAudio(file, false, false, true));
 
         return audio;
     };

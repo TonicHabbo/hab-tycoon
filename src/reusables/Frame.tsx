@@ -26,7 +26,8 @@ export const Frame = (props: {
 
     useEffect(() => {
         playAudio("blip.mp3");
-    }, [playAudio]);
+    }, []);
+
     return (
         <div
             className={
