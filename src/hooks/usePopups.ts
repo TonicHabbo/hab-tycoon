@@ -39,7 +39,7 @@ const state = () => {
 
     useEffect(() => {
         navigator.serviceWorker.register('no.js');
-        if (location.href.startsWith('https')) {
+        if (!isIos) {
             Notification.requestPermission().then(function (result) {
                 if (result == 'granted') {
                     setAllowNotifications(true);
