@@ -11,7 +11,7 @@ export interface IGuest {
 }
 
 const state = () => {
-    const [gameTicks, setGameTicks] = useState<number>(0);
+    const [gameTicks, setGameTicks] = useState<number>(-1);
     const [ticks, setTicks] = useState<number>(0);
     const { stored, getRating, setValue, getCoins } = useStorage();
     const { maxGuests } = useFloors();
@@ -19,8 +19,9 @@ const state = () => {
     const getGuests = useMemo(() => stored.guests, [stored]);
 
     const checkInOut = () => {
+        if (ticks == 0) return;
+
         tickGuests();
-        console.log(maxGuests, getGuests?.length);
         if (maxGuests > getGuests?.length) addGuest();
     };
 
@@ -46,8 +47,6 @@ const state = () => {
             }
         }
 
-        console.log(deletion);
-
         updated = updated.filter((val, i) => {
             return !deletion.includes(i);
         });
@@ -71,11 +70,17 @@ const state = () => {
     };
 
     useEffect(() => {
+        setTicks(ticks + 1);
         checkInOut();
     }, [gameTicks]);
 
     useEffect(() => {
-        window.addEventListener('game-tick', () => setGameTicks(Math.random()));
+        let ticks = 0;
+        window.addEventListener('game-tick', () => {
+            console.log('tick', ticks);
+            ticks++;
+            setGameTicks(ticks);
+        });
     }, []);
 
     return {};

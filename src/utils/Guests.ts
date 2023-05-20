@@ -1,8 +1,8 @@
 export const GuestType: IGuestType[] = [
-    { name: 'Guest', payout: 2, checkout: 120, rarity: 0 },
-    { name: 'Regular', payout: 1, checkout: 150, rarity: 0 },
-    { name: 'Long-Term', payout: 1, checkout: 300, rarity: 1 },
-    { name: 'VIP', payout: 5, checkout: 40, rarity: 10 },
+    { name: 'Guest', payout: 10, checkout: 30, rarity: 0 },
+    { name: 'Regular', payout: 13, checkout: 40, rarity: 0 },
+    { name: 'Long-Term', payout: 18, checkout: 80, rarity: 1 },
+    { name: 'VIP', payout: 20, checkout: 40, rarity: 10 },
 ];
 
 export interface IGuestType {
@@ -36,7 +36,43 @@ export const randomGuestType = () => {
     return type;
 };
 
-export const generateGuestName = () => {
+export const generateGuestName = (vip: boolean) => {
+    let vips = [
+        'TheGeneral',
+        'Quackster',
+        'Meth0d',
+        'Leenster',
+        'HarmonicRain',
+        'Harmony',
+        'Skeletor',
+        'Billsonnnn',
+        'Laynester',
+        'RastaLulz',
+        'Sledmore',
+        'Shorty',
+        'Sojobo',
+        'ArpyAge',
+        'robbis',
+        'Liam',
+        'Burak',
+        'Ju$tin',
+        'Batman',
+        'ElMayor',
+        'Object',
+        'Kasja',
+        'Damien',
+        'Westyy',
+        'Bran',
+        'treebeard',
+        'Webbanditten',
+        'Jonteh',
+        'Kev',
+    ];
+
+    if (vip) {
+        return vips[Math.floor(Math.random() * vips.length)];
+    }
+
     let usernames = [
         '.:%Username%:.',
         'xX%Username%Xx',
@@ -48,13 +84,13 @@ export const generateGuestName = () => {
         '%c%',
         '%C%',
         '%n%',
+        'Not%Username%',
     ];
 
     let names = [
         'charlie',
         'lauren',
         'vivian',
-        'image.png',
         'benjamin',
         'coral',
         'jake',

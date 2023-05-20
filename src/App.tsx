@@ -1,17 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-    LevelUp,
-    LoadingScreen,
-    Mainview,
-    ToolbarView,
-    TopBarView,
-} from "./components";
+import { LoadingScreen, Mainview, ToolbarView, TopBarView } from "./components";
 import { TutorialView } from "./components/tutorial/TutorialView";
-import { useApp } from "./hooks";
-import { Button, Flex } from "./reusables";
+import { useApp, usePopups } from "./hooks";
+import { Button, Flex, Frame } from "./reusables";
 
 export const App = () => {
     const { ready, standalone, setAlone } = useApp();
+    const { popups, addPopup, removePopup } = usePopups();
 
     const [evt, setEvt] = useState<any>(null);
 
@@ -29,16 +24,31 @@ export const App = () => {
         return classes.join(" ");
     }, [standalone]);
 
+    const remove = () => {
+        removePopup(popup);
+    };
+
     const install = () => {
         if (evt) {
             evt.prompt();
-            setAlone(true);
+            remove();
         }
     };
+
+    const popup = (
+        <Frame title="Install" close={remove} className="z-50">
+            <Flex column fit justify="center">
+                Better with installation!
+                <Button onClick={install}></Button>
+            </Flex>
+        </Frame>
+    );
 
     useEffect(() => {
         const eventH = (evt) => {
             evt.preventDefault();
+            console.log("ye");
+            addPopup(popup);
             setEvt(evt);
         };
 
@@ -57,21 +67,16 @@ export const App = () => {
             alignItems="center"
             justify="center"
         >
-            {standalone && (
+            <LoadingScreen />
+            {ready && (
                 <>
-                    <LoadingScreen />
-                    {ready && (
-                        <>
-                            <TopBarView />
-                            <Mainview />
-                            <ToolbarView />
-                            <LevelUp />
-                            <TutorialView />
-                        </>
-                    )}
+                    <TopBarView />
+                    <Mainview />
+                    <ToolbarView />
+                    <TutorialView />
                 </>
             )}
-            {!standalone && <Button onClick={install}>Open Game</Button>}
+            {popups && popups.map((val, i) => <div key={i}>{val}</div>)}
         </Flex>
     );
 };
