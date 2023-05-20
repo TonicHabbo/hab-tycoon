@@ -38,15 +38,7 @@ export const App = () => {
     }, []);
 
     return (
-        <Flex
-            column
-            fit
-            className={getClasses}
-            gap={0}
-            overflow="hidden"
-            alignItems="center"
-            justify="center"
-        >
+        <Flex column fit className={getClasses} gap={0} overflow="hidden">
             <LoadingScreen />
             {ready && (
                 <>

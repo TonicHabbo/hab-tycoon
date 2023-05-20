@@ -10,8 +10,10 @@ export interface IFloor {
     type: number;
     name: string;
     level: number;
-    ticksToBuild: number;
-    kind: number;
+    ticksToBuild?: number;
+    ticksToTimeout?: number;
+    kind?: number;
+    column?: number;
 }
 
 const state = () => {
@@ -20,8 +22,13 @@ const state = () => {
     const { notify } = usePopups();
 
     const [floorCreator, setFloorCreator] = useState<boolean>(false);
+    const [selectedColumn, setSelectedColumn] = useState<number>(0);
 
-    const floors = useMemo(() => stored.floors, [stored]);
+    const floors = useMemo(() => stored?.floors, [stored]);
+    const columns = useMemo(
+        () => stored?.floors.filter((val) => val.kind == -1)[0]?.level,
+        [stored]
+    );
 
     const getFloorType = (type: number) => {
         return FloorType.filter((val) => val.id == type)[0];
@@ -48,6 +55,8 @@ const state = () => {
             level: 1,
             ticksToBuild: floorType?.ticksToBuild,
             kind: floorType?.kind,
+            column: selectedColumn,
+            ticksToTimeout: floorType?.ticksToDecomission,
         };
 
         setValue('coins', getCoins - floorType?.cost);
@@ -55,6 +64,39 @@ const state = () => {
         setValue('floors', [...floors, newFloor]);
         gainXP(floorType.xpReward);
     };
+
+    const upgradeFloor = (floor: IFloor) => {
+        let updates = [...floors];
+
+        for (let i = 0; i < updates.length; i++) {
+            if (updates[i].id == floor.id) {
+                updates[i].level += 1;
+            }
+        }
+
+        setValue('floors', [...updates]);
+    };
+
+    const recommissionFloor = (floor: IFloor) => {
+        let updates = [...floors];
+        let type = getFloorType(floor.type);
+
+        for (let i = 0; i < updates.length; i++)
+            if (updates[i].id == floor.id)
+                updates[i].ticksToTimeout =
+                    type.ticksToDecomission * floor.level;
+
+        setValue('floors', [...updates]);
+    };
+
+    const removeFloor = (floor: IFloor) => {
+        let updates = [...floors];
+
+        updates = updates.filter((val) => val.id !== floor.id);
+
+        setValue('floors', [...updates]);
+    };
+
     const [ticks, setTicks] = useState<number>(0);
 
     const maxGuests = useMemo(() => {
@@ -62,7 +104,7 @@ const state = () => {
 
         for (let floor of floors)
             if (getFloorType(floor.type)?.guests > 0 && floor.ticksToBuild <= 0)
-                max += getFloorType(floor.type)?.guests;
+                max += getFloorType(floor.type)?.guests + 0.8 * floor.level;
 
         return max;
     }, [floors]);
@@ -73,6 +115,15 @@ const state = () => {
         for (let floor of floors) if (floor.kind == kind) amount += 1;
 
         return amount;
+    };
+
+    const randomEmptyFloor = () => {
+        let emptyFloors = floors.filter(
+            (val) =>
+                val.ticksToTimeout > 0 && val.kind == 0 && val.ticksToBuild == 0
+        );
+
+        return emptyFloors[Math.floor(Math.random() * emptyFloors.length)];
     };
 
     useEffect(() => {
@@ -89,6 +140,7 @@ const state = () => {
 
                 updated += 1;
             } else {
+                //
             }
         }
 
@@ -96,6 +148,53 @@ const state = () => {
 
         setValue('floors', [...updatedFloors]);
     }, [ticks]);
+
+    const upgradeCost = (floor: IFloor) => {
+        const type = getFloorType(floor.type);
+        const cost = type.cost * (floor.level + 1);
+
+        return cost;
+    };
+
+    const upgrade = (floor: IFloor) => {
+        const cost = upgradeCost(floor);
+        if (getCoins < cost) {
+            notify('You cannot afford this right now!');
+        } else {
+            setValue('coins', getCoins - cost);
+            upgradeFloor(floor);
+        }
+    };
+
+    const recommissionCost = (floor: IFloor) => {
+        const type = getFloorType(floor.type);
+        const cost = type.ticksToDecomission * (floor.level + 1);
+
+        return cost;
+    };
+
+    const recommission = (floor: IFloor) => {
+        const cost = recommissionCost(floor);
+
+        if (getCoins < cost) {
+            notify('You cannot afford this right now!');
+        } else {
+            setValue('coins', getCoins - cost);
+            recommissionFloor(floor);
+        }
+    };
+    const demolishCost = (floor: IFloor) => getFloorType(floor.type)?.cost;
+
+    const demolish = (floor: IFloor) => {
+        const cost = demolishCost(floor);
+
+        if (getCoins < cost) {
+            notify('You cannot afford this right now!');
+        } else {
+            setValue('coins', getCoins - cost);
+            removeFloor(floor);
+        }
+    };
 
     useEffect(() => {
         window.addEventListener('game-tick', () =>
@@ -113,6 +212,16 @@ const state = () => {
         createFloor,
         maxGuests,
         kindBuilt,
+        columns,
+        selectedColumn,
+        setSelectedColumn,
+        upgradeCost,
+        upgrade,
+        demolishCost,
+        demolish,
+        recommission,
+        recommissionCost,
+        randomEmptyFloor,
     };
 };
 

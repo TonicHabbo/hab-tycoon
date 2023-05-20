@@ -2,19 +2,24 @@ import { useEffect, useMemo, useState } from 'react';
 import { useBetween } from 'use-between';
 import { GuestType, generateGuestName, randomGuestType } from '../../utils';
 import { useFloors } from '../useFloors';
+import { useLevels } from '../useLevels';
+import { usePopups } from '../usePopups';
 import { useStorage } from '../useStorage';
 
 export interface IGuest {
     name: string;
     type: number;
     checkout: number;
+    floor: number;
 }
 
 const state = () => {
     const [gameTicks, setGameTicks] = useState<number>(-1);
     const [ticks, setTicks] = useState<number>(0);
     const { stored, getRating, setValue, getCoins } = useStorage();
-    const { maxGuests } = useFloors();
+    const { maxGuests, randomEmptyFloor, floors } = useFloors();
+    const { gainXP } = useLevels();
+    const { notify } = usePopups();
 
     const getGuests = useMemo(() => stored.guests, [stored]);
 
@@ -27,6 +32,19 @@ const state = () => {
 
     const guestType = (type: number) => {
         return GuestType.filter((val, i) => i == type)[0];
+    };
+
+    const checkIn = (guest: IGuest) => {
+        let updated = [...floors];
+
+        for (let i = 0; i < updated.length; i++)
+            if (updated[i].id == guest?.floor) {
+                updated[i].ticksToTimeout -= 1;
+                if (updated[i].ticksToTimeout == 0)
+                    notify(updated[i].name + ' Needs attention!');
+            }
+
+        setValue('floors', [...updated]);
     };
 
     const tickGuests = () => {
@@ -42,6 +60,7 @@ const state = () => {
             if (guest.checkout <= 0) {
                 deletion.push(i);
                 coins += type.payout;
+                gainXP(type.xp);
             } else guest.checkout -= 1;
         }
 
@@ -56,12 +75,25 @@ const state = () => {
     const addGuest = () => {
         let randomType = randomGuestType();
         let username = generateGuestName(randomType.vip);
+        let randomFloor = randomEmptyFloor();
+
+        if (!randomFloor) randomFloor = floors[0];
+
+        if (!randomFloor) return;
+
+        if (randomFloor.ticksToTimeout <= 0 && randomFloor.kind !== 0) return;
+
+        console.log(randomFloor);
 
         let newGuest: IGuest = {
             name: username,
             type: GuestType.findIndex((el) => el === randomType),
             checkout: randomType.checkout,
+            floor: randomFloor.id,
         };
+
+        checkIn(newGuest);
+
         setValue('guests', [...getGuests, newGuest]);
     };
 

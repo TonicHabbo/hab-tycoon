@@ -1,8 +1,10 @@
 import { useStorage } from "../../hooks";
+import { useLevels } from "../../hooks/useLevels";
 import { Button, Flex } from "../../reusables";
 
 export const TopBarView = () => {
-    const { getCoins, getName, getLevel, reset } = useStorage();
+    const { getCoins, getName, getLevel, getXP, reset } = useStorage();
+    const { nextLevel } = useLevels();
 
     return (
         <Flex
@@ -32,7 +34,7 @@ export const TopBarView = () => {
                     alignItems="center"
                     justify="center"
                 >
-                    Level: {getLevel}
+                    Level: {getLevel} | ({getXP} / {nextLevel?.xp})
                 </Flex>
             </Flex>
             <Button onClick={reset}>reset</Button>

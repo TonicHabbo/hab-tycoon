@@ -53,6 +53,7 @@ export const LoadingScreen = () => {
         >
             <Flex fullHeight className="w-1/2 loading-door" />
             <Flex fullHeight className="w-1/2 loading-door" />
+            <div className="logo absolute top-0 bottom-0 start-0 end-0 m-auto"></div>
         </Flex>
     );
 };

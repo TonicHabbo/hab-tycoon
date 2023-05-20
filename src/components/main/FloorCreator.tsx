@@ -23,7 +23,7 @@ export const FloorCreatorView = () => {
 
     const canAfford = useMemo(() => {
         return getFloorType(selectedType)?.cost <= getCoins;
-    }, [selectedType]);
+    }, [selectedType, getCoins]);
 
     const reset = () => {
         setFloorCreator(false);

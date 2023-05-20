@@ -24,9 +24,8 @@ const state = () => {
         setPopups((prev) => prev.filter((val) => val.key !== key));
     };
 
-    const notify = (message: string, force: boolean = false) => {
+    const notify = (message: string, force: boolean = true) => {
         let focused = !force && document.visibilityState === 'visible';
-        console.log(message);
         if (allowNotifications && !focused) {
             let notif = new Notification('HELLOOOOO', {
                 body: message,
@@ -38,7 +37,6 @@ const state = () => {
     };
 
     useEffect(() => {
-        navigator.serviceWorker.register('no.js');
         if (!isIos) {
             Notification.requestPermission().then(function (result) {
                 if (result == 'granted') {

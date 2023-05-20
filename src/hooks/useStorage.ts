@@ -10,13 +10,16 @@ const defaultStore = {
     level: 1,
     xp: 0,
     rating: 0,
+    columns: 3,
     floors: [
         {
             id: 1,
             type: 0,
+            kind: -1,
             name: 'Lobby',
             level: 1,
-            ticksToBuild: 0,
+            column: 0,
+            ticksToTimeout: -1,
         },
     ],
     guests: [],
@@ -28,6 +31,7 @@ interface Store {
     name: string;
     coins: number;
     level: number;
+    columns: number;
     xp: number;
     rating: number;
     floors: IFloor[];

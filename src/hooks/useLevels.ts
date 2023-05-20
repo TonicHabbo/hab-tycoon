@@ -18,7 +18,7 @@ const state = () => {
     }, [getLevel]);
 
     const gainXP = (amount: number) => {
-        setValue('xp', amount);
+        setValue('xp', getXP + amount);
     };
 
     const maxOfKind = (kind: number) => {
@@ -29,13 +29,15 @@ const state = () => {
     };
 
     useEffect(() => {
-        if (getXP >= nextLevel?.xp) {
-            addPopup('level', LevelUp({ level: nextLevel }));
+        const next = Levels.filter((val) => val.level == getLevel + 1)[0];
+        if (getXP >= next?.xp) {
+            setValue('xp', 0);
             setValue('level', nextLevel?.level);
+            addPopup('level', LevelUp({ level: nextLevel }));
         }
     }, [getXP]);
 
-    return { gainXP, maxOfKind };
+    return { currentLevel, nextLevel, gainXP, maxOfKind };
 };
 
 export const useLevels = () => useBetween(state);

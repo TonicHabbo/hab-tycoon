@@ -9,6 +9,18 @@ html,
 body,
 * {
     image-rendering: pixelated;
+
+    &::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+    }
+}
+
+.logo {
+    width: 136px;
+    height: 128px;
+    background-image: url("../images/loading/logo.png");
+    zoom: 2;
 }
 
 .standalone-app {

@@ -39,7 +39,7 @@ export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
 let bitch =
     "justify-normal justify-start justify-end justify-center justify-between justify-around justify-evenly justify-stretch";
 bitch =
-    "items-start items-end items-center items-baseline items-stretch gap-0 gap-1 gap-2 gap-3 gap-4 gap-5";
+    "items-start items-end items-center items-baseline items-stretch gap-0 gap-1 gap-2 gap-3 gap-4 gap-5 overflow-auto overflow-y-auto overflow-x-auto overflow-hidden";
 export const Flex = (props: FlexProps) => {
     const {
         gap = 1,
@@ -49,7 +49,7 @@ export const Flex = (props: FlexProps) => {
         fit = false,
         justify = "normal",
         className = "",
-        overflow = "auto",
+        overflow = "visible",
         alignItems = "baseline",
         grid = false,
         ...rest

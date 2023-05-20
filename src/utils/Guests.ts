@@ -1,8 +1,15 @@
 export const GuestType: IGuestType[] = [
-    { name: 'Guest', payout: 10, checkout: 30, rarity: 0, vip: false },
-    { name: 'Regular', payout: 13, checkout: 40, rarity: 0, vip: false },
-    { name: 'Long-Term', payout: 18, checkout: 80, rarity: 1, vip: false },
-    { name: 'VIP', payout: 20, checkout: 40, rarity: 10, vip: true },
+    { name: 'Guest', payout: 10, checkout: 30, rarity: 0, vip: false, xp: 2 },
+    { name: 'Regular', payout: 13, checkout: 40, rarity: 0, vip: false, xp: 3 },
+    {
+        name: 'Long-Term',
+        payout: 18,
+        checkout: 80,
+        rarity: 1,
+        vip: false,
+        xp: 3,
+    },
+    { name: 'VIP', payout: 20, checkout: 40, rarity: 10, vip: true, xp: 15 },
 ];
 
 export interface IGuestType {
@@ -11,6 +18,7 @@ export interface IGuestType {
     checkout: number;
     rarity: number;
     vip: boolean;
+    xp: number;
 }
 
 export const randomGuestType = () => {

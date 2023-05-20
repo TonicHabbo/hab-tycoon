@@ -10,7 +10,7 @@ export const FloorType: FloorType[] = [
         id: 0,
         publicName: 'Lobby',
         className: 'lobby-floor',
-        cost: 0,
+        cost: 10000,
         levelRequirement: -1,
     },
     // halls
@@ -18,10 +18,11 @@ export const FloorType: FloorType[] = [
         id: 1,
         kind: 0,
         publicName: 'Small Hallway',
-        className: 'hallway-small',
-        cost: 1000,
+        className: 'hallway-sm',
+        cost: 700,
         levelRequirement: 1,
         ticksToBuild: 40,
+        ticksToDecomission: 12,
         xpReward: 10,
         guests: 6,
     },
@@ -29,10 +30,11 @@ export const FloorType: FloorType[] = [
         id: 2,
         kind: 0,
         publicName: 'Medium Hallway',
-        className: 'hallway-small',
-        cost: 5000,
+        className: 'hallway-md',
+        cost: 1200,
         levelRequirement: 3,
         ticksToBuild: 60,
+        ticksToDecomission: 24,
         xpReward: 15,
         guests: 12,
     },
@@ -40,10 +42,11 @@ export const FloorType: FloorType[] = [
         id: 4,
         kind: 0,
         publicName: 'Large Hallway',
-        className: 'hallway-small',
-        cost: 10000,
+        className: 'hallway-sm',
+        cost: 5000,
         levelRequirement: 5,
         ticksToBuild: 120,
+        ticksToDecomission: 36,
         xpReward: 20,
         guests: 18,
     },
@@ -53,9 +56,10 @@ export const FloorType: FloorType[] = [
         kind: 1,
         publicName: 'Club Mammoth',
         className: 'mammoth',
-        cost: 3000,
+        cost: 1200,
         levelRequirement: 2,
         ticksToBuild: 70,
+        ticksToDecomission: 36,
         xpReward: 20,
     },
 ];
@@ -77,4 +81,5 @@ interface FloorType {
     ticksToBuild?: number;
     xpReward?: number;
     guests?: number;
+    ticksToDecomission?: number;
 }

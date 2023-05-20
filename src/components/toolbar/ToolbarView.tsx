@@ -14,9 +14,6 @@ export const ToolbarView = () => {
             "border-t",
             "border-black",
             "py-2",
-            "grid",
-            "grid-flow-col",
-            "auto-cols-auto",
             "z-20",
         ];
 

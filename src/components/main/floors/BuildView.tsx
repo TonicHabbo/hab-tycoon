@@ -1,8 +1,14 @@
 import { useFloors } from "../../../hooks";
 import { Button, Flex } from "../../../reusables";
 
-export const BuildView = () => {
-    const { setFloorCreator } = useFloors();
+export const BuildView = (props: { column: number }) => {
+    const { column } = props;
+    const { setFloorCreator, setSelectedColumn } = useFloors();
+
+    const click = () => {
+        setSelectedColumn(column);
+        setFloorCreator(true);
+    };
 
     return (
         <Flex
@@ -10,9 +16,7 @@ export const BuildView = () => {
             alignItems="center"
             justify="end"
         >
-            <Button onClick={() => setFloorCreator(true)}>
-                Build new Floor
-            </Button>
+            <Button onClick={click}>Build new Floor</Button>
         </Flex>
     );
 };

@@ -36,5 +36,22 @@
                 right: -100%;
             }
         }
+
+        .logo {
+            transform: scale(0);
+            animation: zoomoutlogo 0.5s ease-in-out;
+        }
+    }
+}
+
+@keyframes zoomoutlogo {
+    0% {
+        transform: scale(1) rotate(-20deg);
+    }
+    10% {
+        transform: scale(1.4) rotate(-20deg);
+    }
+    100% {
+        transform: scale(0) rotate(60deg);
     }
 }
